@@ -1,9 +1,12 @@
+import dotenv from 'dotenv';
 import { GraphQLServer } from 'graphql-yoga';
 import { stitchSchemas } from '@graphql-tools/stitch';
 import { PrismaClient } from '@prisma/client';
 
 import subschemas from './typeDefs';
 import resolvers from './resolvers';
+
+dotenv.config();
 
 const prisma = new PrismaClient();
 

@@ -46,7 +46,7 @@ export type Query = {
 export type SignupInput = {
   username: Scalars['String'];
   password: Scalars['String'];
-  passwordConform: Scalars['String'];
+  passwordConfirm: Scalars['String'];
 };
 
 export type SignupPayload = {

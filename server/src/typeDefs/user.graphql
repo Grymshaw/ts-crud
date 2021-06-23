@@ -15,7 +15,7 @@ type LoginPayload {
 input SignupInput {
     username: String!
     password: String!
-    passwordConform: String!
+    passwordConfirm: String!
 }
 
 type SignupPayload {
