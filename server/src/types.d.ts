@@ -11,6 +11,40 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateLeadInput = {
+  name: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  website?: Maybe<Scalars['String']>;
+  note: Scalars['String'];
+};
+
+export type CreateLeadPayload = {
+  __typename?: 'CreateLeadPayload';
+  lead: Lead;
+};
+
+export type DeleteLeadInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteLeadPayload = {
+  __typename?: 'DeleteLeadPayload';
+  success: Scalars['Boolean'];
+  count: Scalars['Int'];
+};
+
+export type Lead = {
+  __typename?: 'Lead';
+  id: Scalars['Int'];
+  user: User;
+  userId: Scalars['Int'];
+  name: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  website?: Maybe<Scalars['String']>;
+};
+
 export type LoginInput = {
   username: Scalars['String'];
   password: Scalars['String'];
@@ -24,8 +58,21 @@ export type LoginPayload = {
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
+  createLead: CreateLeadPayload;
+  deleteLead: DeleteLeadPayload;
   login: LoginPayload;
   signup: SignupPayload;
+  updateLead: UpdateLeadPayload;
+};
+
+
+export type MutationCreateLeadArgs = {
+  input: CreateLeadInput;
+};
+
+
+export type MutationDeleteLeadArgs = {
+  input: DeleteLeadInput;
 };
 
 
@@ -38,9 +85,21 @@ export type MutationSignupArgs = {
   input: SignupInput;
 };
 
+
+export type MutationUpdateLeadArgs = {
+  input: UpdateLeadInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']>;
+  lead: Lead;
+  leads: Array<Lead>;
+};
+
+
+export type QueryLeadArgs = {
+  id: Scalars['Int'];
 };
 
 export type SignupInput = {
@@ -52,6 +111,18 @@ export type SignupInput = {
 export type SignupPayload = {
   __typename?: 'SignupPayload';
   user: User;
+};
+
+export type UpdateLeadInput = {
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  phoneNumber?: Maybe<Scalars['Int']>;
+  website?: Maybe<Scalars['String']>;
+};
+
+export type UpdateLeadPayload = {
+  __typename?: 'UpdateLeadPayload';
+  lead: Lead;
 };
 
 export type User = {
