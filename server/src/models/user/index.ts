@@ -1,8 +1,14 @@
 import bcrypt from 'bcrypt';
 
-import { generateAccessToken } from '../lib';
+import { generateAccessToken } from '../../lib';
+import { CreateArgs, LoginArgs } from './types';
 
-const login = async ({ prisma, password, username, res }) => {
+const login = async ({
+    prisma,
+    password,
+    username,
+    res,
+}: LoginArgs) => {
     const user = await prisma.user.findUnique({ where: { username } });
 
     if (!user) {
@@ -25,8 +31,9 @@ const login = async ({ prisma, password, username, res }) => {
     return user;
 };
 
-const create = async ({ prisma, password, passwordConfirm, username }) => {
-    const user = prisma.user.findUnique({ where: { username } });
+const create = async ({ prisma, password, passwordConfirm, username }: CreateArgs) => {
+    console.log('username: ', username);
+    const user = await prisma.user.findUnique({ where: { username } });
 
     if (user) {
         throw new Error('Username already in use.');

@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "generate": "graphql-codegen",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tslint": "tslint src/**/*.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.5",
+    "@graphql-codegen/typescript": "^1.22.3",
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^8.5.2",
     "@types/node": "^15.12.4",
@@ -21,6 +25,8 @@
   "dependencies": {
     "@prisma/client": "^2.25.0",
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "graphql": "^14.6.0",
     "graphql-tools": "^7.0.5",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1"

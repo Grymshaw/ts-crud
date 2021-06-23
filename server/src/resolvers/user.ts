@@ -1,28 +1,31 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import Context from './types/context';
 import User from '../models/user';
+import { LoginInput, SignupInput } from '../types';
 
-interface ResolverCtx {
-    prisma: PrismaClient
-    request: Request
-    response: Response
-}
-
-const loginUser = async (_, { input }, { prisma }: ResolverCtx) => {
+const login = async (
+    _: any,
+    { input: { username, password } }: { input: LoginInput },
+    { prisma }: Context,
+) => {
+    return;
 };
 
-const signupUser = async (_, { input }, { prisma }) => (
+const signup = async (
+    _: any,
+    { input: { username, password, passwordConfirm } }: { input: SignupInput },
+    { prisma }: Context,
+) => (
     User.create({
         prisma,
-        username: input.username,
-        password: input.password,
-        passwordConfirm: input.passwordConfirm,
+        username,
+        password,
+        passwordConfirm,
     })
-);
+ );
 
 const Mutation = {
-    loginUser,
-    signupUser,
+    login,
+    signup,
 };
 
 export default {
