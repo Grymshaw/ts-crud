@@ -1,22 +1,23 @@
 type Lead {
-    id: Int!
-    user: User!
-    userId: Int!
-    name: String!
+    id: Int
+    user: User
+    userId: Int
+    name: String
     email: String
     phoneNumber: Int
     website: String
+    notes: [LeadNote!]
 }
 
 extend type Query {
-    lead(id: Int!): Lead!
-    leads: [Lead!]!
+    lead(id: Int!): Lead
+    leads: [Lead!]
 }
 
 extend type Mutation {
     createLead(input: CreateLeadInput!): CreateLeadPayload!
-    deleteLead(input: DeleteLeadInput!): DeleteLeadPayload!
-    updateLead(input: UpdateLeadInput!): UpdateLeadPayload!
+#     deleteLead(input: DeleteLeadInput!): DeleteLeadPayload!
+#     updateLead(input: UpdateLeadInput!): UpdateLeadPayload!
 }
 
 input CreateLeadInput {
@@ -48,5 +49,5 @@ input DeleteLeadInput {
 
 type DeleteLeadPayload {
     success: Boolean!
-    count: Int!
+    count: Int
 }

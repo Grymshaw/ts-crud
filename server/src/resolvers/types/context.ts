@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 
 export default interface Context {
     prisma: PrismaClient
-    request: Request
-    response: Response
+    req: Request
+    res: Response
 }
  

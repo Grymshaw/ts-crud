@@ -31,18 +31,27 @@ export type DeleteLeadInput = {
 export type DeleteLeadPayload = {
   __typename?: 'DeleteLeadPayload';
   success: Scalars['Boolean'];
-  count: Scalars['Int'];
+  count?: Maybe<Scalars['Int']>;
 };
 
 export type Lead = {
   __typename?: 'Lead';
-  id: Scalars['Int'];
-  user: User;
-  userId: Scalars['Int'];
-  name: Scalars['String'];
+  id?: Maybe<Scalars['Int']>;
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['Int']>;
   website?: Maybe<Scalars['String']>;
+  notes?: Maybe<Array<LeadNote>>;
+};
+
+export type LeadNote = {
+  __typename?: 'LeadNote';
+  id?: Maybe<Scalars['Int']>;
+  lead?: Maybe<Lead>;
+  leadId?: Maybe<Scalars['Int']>;
+  note?: Maybe<Scalars['String']>;
 };
 
 export type LoginInput = {
@@ -59,20 +68,13 @@ export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
   createLead: CreateLeadPayload;
-  deleteLead: DeleteLeadPayload;
   login: LoginPayload;
   signup: SignupPayload;
-  updateLead: UpdateLeadPayload;
 };
 
 
 export type MutationCreateLeadArgs = {
   input: CreateLeadInput;
-};
-
-
-export type MutationDeleteLeadArgs = {
-  input: DeleteLeadInput;
 };
 
 
@@ -85,16 +87,11 @@ export type MutationSignupArgs = {
   input: SignupInput;
 };
 
-
-export type MutationUpdateLeadArgs = {
-  input: UpdateLeadInput;
-};
-
 export type Query = {
   __typename?: 'Query';
   _empty?: Maybe<Scalars['String']>;
-  lead: Lead;
-  leads: Array<Lead>;
+  lead?: Maybe<Lead>;
+  leads?: Maybe<Array<Lead>>;
 };
 
 

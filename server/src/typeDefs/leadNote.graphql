@@ -1,0 +1,6 @@
+type LeadNote {
+    id:     Int
+    lead:   Lead
+    leadId: Int
+    note:   String
+}

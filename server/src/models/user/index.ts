@@ -23,10 +23,10 @@ const login = async ({
 
     const accessToken = generateAccessToken(user.id);
     res.cookie(
-        'refreshToken',
+        'accessToken',
         accessToken,
-        { maxAge: 1000 * 60 * 60 * 24, httpOnly: true, secure: false },
-      );
+        { maxAge: 1000 * 24 * 60 * 60, httpOnly: true, secure: false },
+    );
 
     return user;
 };
