@@ -18,19 +18,20 @@ const leads = (_: any, _2: any, { prisma, req }: Context): Promise<Lead[]> => (
     LeadModel.findMany({ prisma, req })
 );
 
-const createLead = (_: any, { input }: { input: CreateLeadInput }, { prisma, req }: Context) => (
-    LeadModel.create({ input, prisma, req })
-);
+const createLead = async (_: any, { input }: { input: CreateLeadInput }, { prisma, req }: Context) => ({
+    lead: await LeadModel.create({ input, prisma, req })
+});
 
-// const deleteLead = (_: any, { input }: { input: DeleteLeadInput }, ctx: Context): DeleteLeadPayload => {
-// };
+const deleteLead = async (_: any, { input }: { input: DeleteLeadInput }, { prisma, req }: Context): Promise<DeleteLeadPayload> => ({
+    deletedLead: await LeadModel.deleteOne({ prisma, req, input }),
+});
 
 // const updateLead = (_: any, { input }: { input: UpdateLeadInput }, ctx: Context): UpdateLeadPayload => {
 // };
 
 const Mutation = {
     createLead,
-//     deleteLead,
+    deleteLead,
 //     updateLead,
 }
 

@@ -4,7 +4,7 @@ import LeadNote from '../models/leadNote';
 import { CreateNoteInput, DeleteNoteInput, UpdateNoteInput } from '../types';
 
 const notes = (_: any, { leadId }: { leadId: number }, { prisma, req }: Context) => (
-    LeadNote.fetchNotes({ prisma, req, leadId })
+    LeadNote.findMany({ prisma, req, leadId })
 );
 
 const createLeadNote = async (
@@ -12,7 +12,7 @@ const createLeadNote = async (
     { input }: { input: CreateNoteInput },
     { prisma, req }: Context,
 ) => ({
-    leadNote: await LeadNote.createLeadNote({ prisma, req, input }),
+    leadNote: await LeadNote.create({ prisma, req, input }),
 });
 
 const deleteLeadNote = async (
@@ -20,7 +20,7 @@ const deleteLeadNote = async (
     { input }: { input: DeleteNoteInput },
     { prisma, req }: Context,
 ) => ({
-    deletedLeadNote: await LeadNote.deleteLeadNote({ prisma, req, input }),
+    deletedLeadNote: await LeadNote.deleteOne({ prisma, req, input }),
 });
 
 const updateLeadNote = async (
@@ -28,7 +28,7 @@ const updateLeadNote = async (
     { input }: { input: UpdateNoteInput },
     { prisma, req }: Context,
 ) => ({
-    leadNote: await LeadNote.updateLeadNote({ prisma, req, input }),
+    leadNote: await LeadNote.update({ prisma, req, input }),
 })
 
 const Query = {

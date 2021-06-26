@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { Request } from 'express';
-import { CreateLeadInput, Lead } from '../../types';
+import { CreateLeadInput, DeleteLeadInput, DeleteNoteInput, Lead } from '../../types';
 import { isAuthenticated } from '../../lib';
 
 // FIXME: Make this much better
@@ -28,7 +28,7 @@ const findOne = async ({ id, prisma, req }: { id: number, prisma: PrismaClient, 
         include: { notes: true },
     });
 
-    return lead && lead.userId === user.id ? lead : null;
+    return lead && (lead.userId === user.id) ? lead : null;
 };
 
 const findMany = async ({ prisma, req }: { prisma: PrismaClient, req: Request }): Promise<Lead[]> => {
@@ -52,30 +52,46 @@ const create = async (
 
     const { name, email, phoneNumber, website, note } = input;
 
-    return {
-        lead: await prisma.lead.create({
-            data: {
-                name,
-                email,
-                phoneNumber,
-                website,
-                user: {
-                    connect: {
-                        id: user.id,
-                    },
-                },
-                notes: {
-                    create: {
-                        note
-                    },
+    return prisma.lead.create({
+        data: {
+            name,
+            email,
+            phoneNumber,
+            website,
+            user: {
+                connect: {
+                    id: user.id,
                 },
             },
-        }),
-    };
+            notes: {
+                create: {
+                    note
+                },
+            },
+        },
+    });
+};
+
+const deleteOne = async ({ prisma, req, input }: { prisma: PrismaClient, req: Request, input: DeleteLeadInput }) => {
+    const user = await isAuthenticated(prisma, req);
+
+    const existingLead = await prisma.lead.findUnique({ where: { id: input.id } });
+
+    if (!existingLead || (existingLead.userId !== user.id)) {
+        throw new Error('Unauthorized')
+    }
+
+    // Delete notes for this lead before deleting note itself
+    await prisma.leadNote.deleteMany({
+        where: { leadId: input.id },
+    });
+
+    return prisma.lead.delete({ where: { id: input.id } });
 };
 
 export default {
     findOne,
     findMany,
     create,
+    deleteOne,
 }

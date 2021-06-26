@@ -16,7 +16,7 @@ extend type Query {
 
 extend type Mutation {
     createLead(input: CreateLeadInput!): CreateLeadPayload!
-#     deleteLead(input: DeleteLeadInput!): DeleteLeadPayload!
+    deleteLead(input: DeleteLeadInput!): DeleteLeadPayload!
 #     updateLead(input: UpdateLeadInput!): UpdateLeadPayload!
 }
 
@@ -48,6 +48,5 @@ input DeleteLeadInput {
 }
 
 type DeleteLeadPayload {
-    success: Boolean!
-    count: Int
+    deletedLead: Lead!
 }

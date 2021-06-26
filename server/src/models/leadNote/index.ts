@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { isAuthenticated } from '../../lib';
 import { CreateNoteInput, DeleteNoteInput, UpdateNoteInput } from '../../types';
 
-const fetchNotes = async (
+const findMany = async (
     { prisma, req, leadId }: { prisma: PrismaClient, req: Request, leadId: number }
 ) => {
     const user = await isAuthenticated(prisma, req);
@@ -18,7 +18,7 @@ const fetchNotes = async (
     });
 };
 
-const createLeadNote = async (
+const create = async (
     { prisma, req, input }: { prisma: PrismaClient, req: Request, input: CreateNoteInput }
 ) => {
     const user = await isAuthenticated(prisma, req);
@@ -35,7 +35,7 @@ const createLeadNote = async (
     });
 };
 
-const deleteLeadNote = async (
+const deleteOne = async (
     { prisma, req, input }: { prisma: PrismaClient, req: Request, input: DeleteNoteInput } 
 ) => {
     const user = await isAuthenticated(prisma, req);
@@ -45,7 +45,7 @@ const deleteLeadNote = async (
     });
 };
 
-const updateLeadNote = async (
+const update = async (
     { prisma, req, input }: { prisma: PrismaClient, req: Request, input: UpdateNoteInput } 
 ) => {
     const user = await isAuthenticated(prisma, req);
@@ -65,8 +65,8 @@ const updateLeadNote = async (
 };
 
 export default {
-    createLeadNote,
-    deleteLeadNote,
-    fetchNotes,
-    updateLeadNote,
+    create,
+    deleteOne,
+    findMany,
+    update,
 };

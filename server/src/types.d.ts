@@ -40,8 +40,7 @@ export type DeleteLeadInput = {
 
 export type DeleteLeadPayload = {
   __typename?: 'DeleteLeadPayload';
-  success: Scalars['Boolean'];
-  count?: Maybe<Scalars['Int']>;
+  deletedLead: Lead;
 };
 
 export type DeleteNoteInput = {
@@ -88,6 +87,7 @@ export type Mutation = {
   _empty?: Maybe<Scalars['String']>;
   createLead: CreateLeadPayload;
   createLeadNote: CreateNotePayload;
+  deleteLead: DeleteLeadPayload;
   deleteLeadNote: DeleteNotePayload;
   login: LoginPayload;
   signup: SignupPayload;
@@ -102,6 +102,11 @@ export type MutationCreateLeadArgs = {
 
 export type MutationCreateLeadNoteArgs = {
   input: CreateNoteInput;
+};
+
+
+export type MutationDeleteLeadArgs = {
+  input: DeleteLeadInput;
 };
 
 
