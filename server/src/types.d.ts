@@ -24,6 +24,16 @@ export type CreateLeadPayload = {
   lead: Lead;
 };
 
+export type CreateNoteInput = {
+  note: Scalars['String'];
+  leadId: Scalars['Int'];
+};
+
+export type CreateNotePayload = {
+  __typename?: 'CreateNotePayload';
+  leadNote: LeadNote;
+};
+
 export type DeleteLeadInput = {
   id: Scalars['Int'];
 };
@@ -32,6 +42,15 @@ export type DeleteLeadPayload = {
   __typename?: 'DeleteLeadPayload';
   success: Scalars['Boolean'];
   count?: Maybe<Scalars['Int']>;
+};
+
+export type DeleteNoteInput = {
+  id: Scalars['Int'];
+};
+
+export type DeleteNotePayload = {
+  __typename?: 'DeleteNotePayload';
+  deletedLeadNote: LeadNote;
 };
 
 export type Lead = {
@@ -68,6 +87,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['String']>;
   createLead: CreateLeadPayload;
+  createLeadNote: CreateNotePayload;
+  deleteLeadNote: DeleteNotePayload;
   login: LoginPayload;
   signup: SignupPayload;
 };
@@ -75,6 +96,16 @@ export type Mutation = {
 
 export type MutationCreateLeadArgs = {
   input: CreateLeadInput;
+};
+
+
+export type MutationCreateLeadNoteArgs = {
+  input: CreateNoteInput;
+};
+
+
+export type MutationDeleteLeadNoteArgs = {
+  input: DeleteNoteInput;
 };
 
 
@@ -92,11 +123,17 @@ export type Query = {
   _empty?: Maybe<Scalars['String']>;
   lead?: Maybe<Lead>;
   leads?: Maybe<Array<Lead>>;
+  notes?: Maybe<Array<LeadNote>>;
 };
 
 
 export type QueryLeadArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryNotesArgs = {
+  leadId: Scalars['Int'];
 };
 
 export type SignupInput = {

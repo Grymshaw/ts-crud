@@ -1,26 +1,7 @@
-import jwt, { Secret } from 'jsonwebtoken';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request } from 'express';
-import { CreateLeadInput, CreateLeadPayload, Lead } from '../../types';
-
-const isAuthenticated = async (prisma: PrismaClient, req: Request) => {
-    const token = getAuthHeaderToken(req);
-
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
-
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET as Secret)
-
-    const user = await prisma.user.findUnique({
-        where: { id: (<{userId: number}>decoded).userId } });
-
-    if (!user) {
-        throw new Error('Unauthorized');
-    }
-
-    return user;
-}
+import { CreateLeadInput, Lead } from '../../types';
+import { isAuthenticated } from '../../lib';
 
 // FIXME: Make this much better
 const validateCreateInput = (input: CreateLeadInput) => {
@@ -38,11 +19,6 @@ const validateCreateInput = (input: CreateLeadInput) => {
 
     return true;
 };
-
-const getAuthHeaderToken = (req: Request) => (
-    req.headers.authorization && req.headers.authorization.split(' ')[1]
-);
-
 
 const findOne = async ({ id, prisma, req }: { id: number, prisma: PrismaClient, req: Request }): Promise<Lead | null> => {
     const user = await isAuthenticated(prisma, req);

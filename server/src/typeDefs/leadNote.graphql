@@ -4,3 +4,29 @@ type LeadNote {
     leadId: Int
     note:   String
 }
+
+extend type Query {
+    notes(leadId: Int!): [LeadNote!]
+}
+
+extend type Mutation {
+    createLeadNote(input: CreateNoteInput!): CreateNotePayload!
+    deleteLeadNote(input: DeleteNoteInput!): DeleteNotePayload!
+}
+
+input CreateNoteInput {
+    note: String!
+    leadId: Int!
+}
+
+input DeleteNoteInput {
+    id: Int!
+}
+
+type CreateNotePayload {
+    leadNote: LeadNote!
+}
+
+type DeleteNotePayload {
+    deletedLeadNote: LeadNote!
+}
