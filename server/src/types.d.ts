@@ -91,6 +91,7 @@ export type Mutation = {
   deleteLeadNote: DeleteNotePayload;
   login: LoginPayload;
   signup: SignupPayload;
+  updateLeadNote: UpdateNotePayload;
 };
 
 
@@ -116,6 +117,11 @@ export type MutationLoginArgs = {
 
 export type MutationSignupArgs = {
   input: SignupInput;
+};
+
+
+export type MutationUpdateLeadNoteArgs = {
+  input: UpdateNoteInput;
 };
 
 export type Query = {
@@ -157,6 +163,16 @@ export type UpdateLeadInput = {
 export type UpdateLeadPayload = {
   __typename?: 'UpdateLeadPayload';
   lead: Lead;
+};
+
+export type UpdateNoteInput = {
+  id: Scalars['Int'];
+  note: Scalars['String'];
+};
+
+export type UpdateNotePayload = {
+  __typename?: 'UpdateNotePayload';
+  leadNote: LeadNote;
 };
 
 export type User = {

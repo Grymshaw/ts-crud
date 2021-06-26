@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Request } from 'express';
 import { isAuthenticated } from '../../lib';
-import { CreateNoteInput, DeleteNoteInput } from '../../types';
+import { CreateNoteInput, DeleteNoteInput, UpdateNoteInput } from '../../types';
 
 const fetchNotes = async (
     { prisma, req, leadId }: { prisma: PrismaClient, req: Request, leadId: number }
@@ -45,8 +45,28 @@ const deleteLeadNote = async (
     });
 };
 
+const updateLeadNote = async (
+    { prisma, req, input }: { prisma: PrismaClient, req: Request, input: UpdateNoteInput } 
+) => {
+    const user = await isAuthenticated(prisma, req);
+
+    const existingNote = await prisma.leadNote.findUnique(
+        { where: { id: input.id }, include: { lead: true } }
+    );
+
+    if (!existingNote || (existingNote.lead.userId !== user.id)) {
+        throw new Error('Unauthorized');
+    }
+
+    return prisma.leadNote.update({
+        where: { id: input.id },
+        data: { note: input.note },
+    });
+};
+
 export default {
     createLeadNote,
     deleteLeadNote,
     fetchNotes,
+    updateLeadNote,
 };

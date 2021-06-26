@@ -1,7 +1,7 @@
 import Context from './types/context';
 import LeadNote from '../models/leadNote';
 
-import { CreateNoteInput, DeleteNoteInput } from '../types';
+import { CreateNoteInput, DeleteNoteInput, UpdateNoteInput } from '../types';
 
 const notes = (_: any, { leadId }: { leadId: number }, { prisma, req }: Context) => (
     LeadNote.fetchNotes({ prisma, req, leadId })
@@ -23,6 +23,14 @@ const deleteLeadNote = async (
     deletedLeadNote: await LeadNote.deleteLeadNote({ prisma, req, input }),
 });
 
+const updateLeadNote = async (
+    _: any,
+    { input }: { input: UpdateNoteInput },
+    { prisma, req }: Context,
+) => ({
+    leadNote: await LeadNote.updateLeadNote({ prisma, req, input }),
+})
+
 const Query = {
     notes,
 };
@@ -30,6 +38,7 @@ const Query = {
 const Mutation = {
     createLeadNote,
     deleteLeadNote,
+    updateLeadNote,
 };
 
 export default {
