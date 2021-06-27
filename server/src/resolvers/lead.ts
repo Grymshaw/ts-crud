@@ -1,5 +1,9 @@
-import Context from "./types/context";
+import { Request } from 'express';
+import { PrismaClient } from '@prisma/client';
+
+import Context from './types/context';
 import LeadModel from '../models/lead';
+import LeadNote from '../models/leadNote';
 import {
     Lead,
     CreateLeadInput,
@@ -8,7 +12,7 @@ import {
     DeleteLeadPayload,
     UpdateLeadInput,
     UpdateLeadPayload,
-} from "../types";
+} from '../types';
 
 const lead = (_: any, { id }: { id: number }, { prisma, req }: Context): Promise<Lead | null> => (
     LeadModel.findOne({ id, prisma, req })
@@ -18,7 +22,7 @@ const leads = (_: any, _2: any, { prisma, req }: Context): Promise<Lead[]> => (
     LeadModel.findMany({ prisma, req })
 );
 
-const createLead = async (_: any, { input }: { input: CreateLeadInput }, { prisma, req }: Context) => ({
+const createLead = async (_: any, { input }: { input: CreateLeadInput }, { prisma, req }: Context): Promise<CreateLeadPayload> => ({
     lead: await LeadModel.create({ input, prisma, req })
 });
 
@@ -26,13 +30,20 @@ const deleteLead = async (_: any, { input }: { input: DeleteLeadInput }, { prism
     deletedLead: await LeadModel.deleteOne({ prisma, req, input }),
 });
 
-// const updateLead = (_: any, { input }: { input: UpdateLeadInput }, ctx: Context): UpdateLeadPayload => {
-// };
+const updateLead = async (_: any, { input }: { input: UpdateLeadInput }, { prisma, req }: Context): Promise<UpdateLeadPayload> => ({
+    lead: await LeadModel.update({ prisma, req, input })
+});
+
+const Lead = {
+    notes: ({ id }: { id: number }, _: any, { prisma, req }: Context) => (
+        LeadNote.findMany({ prisma, req, leadId: id })
+    ),
+};
 
 const Mutation = {
     createLead,
     deleteLead,
-//     updateLead,
+    updateLead,
 }
 
 const Query = {
@@ -41,6 +52,7 @@ const Query = {
 };
 
 export default {
+    Lead,
     Mutation,
     Query,
 }

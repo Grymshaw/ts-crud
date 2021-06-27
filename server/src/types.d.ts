@@ -91,6 +91,7 @@ export type Mutation = {
   deleteLeadNote: DeleteNotePayload;
   login: LoginPayload;
   signup: SignupPayload;
+  updateLead: UpdateLeadPayload;
   updateLeadNote: UpdateNotePayload;
 };
 
@@ -122,6 +123,11 @@ export type MutationLoginArgs = {
 
 export type MutationSignupArgs = {
   input: SignupInput;
+};
+
+
+export type MutationUpdateLeadArgs = {
+  input: UpdateLeadInput;
 };
 
 
@@ -159,6 +165,7 @@ export type SignupPayload = {
 };
 
 export type UpdateLeadInput = {
+  id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['Int']>;

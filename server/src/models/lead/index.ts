@@ -1,10 +1,27 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request } from 'express';
-import { CreateLeadInput, DeleteLeadInput, DeleteNoteInput, Lead } from '../../types';
+import { CreateLeadInput, DeleteLeadInput, UpdateLeadInput, Lead } from '../../types';
 import { isAuthenticated } from '../../lib';
 
 // FIXME: Make this much better
 const validateCreateInput = (input: CreateLeadInput) => {
+    if (!input.name || input.name.length < 3) {
+        return false;
+    }
+
+    if (input.email && !input.email.includes('@')) {
+        return false;
+    }
+
+    if (input.phoneNumber && String(input.phoneNumber).length < 7) {
+        return false;
+    }
+
+    return true;
+};
+
+// FIXME: Make this much better
+const validateUpdateInput = (input: UpdateLeadInput) => {
     if (!input.name || input.name.length < 3) {
         return false;
     }
@@ -89,9 +106,39 @@ const deleteOne = async ({ prisma, req, input }: { prisma: PrismaClient, req: Re
     return prisma.lead.delete({ where: { id: input.id } });
 };
 
+const update = async (
+    { prisma, req, input }: { prisma: PrismaClient, req: Request, input: UpdateLeadInput }
+) => {
+    const user = await isAuthenticated(prisma, req);
+
+    const existingLead = await prisma.lead.findUnique({ where: { id: input.id as number } });
+
+    console.log(input.id as number);
+
+    console.log('existingLead: ', existingLead);
+    console.log('\n\ninput: ', input);
+
+    if (!existingLead || (existingLead.userId !== user.id)) {
+        throw new Error('Unauthorized')
+    }
+
+    const valid = validateUpdateInput(input)
+
+    return prisma.lead.update({
+        where: { id: input.id as number },
+        data: {
+            name: input.name as string,
+            email: input.email,
+            phoneNumber: input.phoneNumber,
+            website: input.website,
+        }
+    });
+};
+
 export default {
     findOne,
     findMany,
     create,
     deleteOne,
+    update,
 }
