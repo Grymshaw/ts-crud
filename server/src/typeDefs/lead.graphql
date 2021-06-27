@@ -1,0 +1,53 @@
+type Lead {
+    id: Int
+    user: User
+    userId: Int
+    name: String
+    email: String
+    phoneNumber: Int
+    website: String
+    notes: [LeadNote!]
+}
+
+extend type Query {
+    lead(id: Int!): Lead
+    leads: [Lead!]
+}
+
+extend type Mutation {
+    createLead(input: CreateLeadInput!): CreateLeadPayload!
+    deleteLead(input: DeleteLeadInput!): DeleteLeadPayload!
+    updateLead(input: UpdateLeadInput!): UpdateLeadPayload!
+}
+
+input CreateLeadInput {
+    name: String!
+    email: String
+    phoneNumber: Int
+    website: String
+    note: String!
+}
+
+type CreateLeadPayload {
+    lead: Lead!
+}
+
+input UpdateLeadInput {
+    id: Int
+    name: String
+    email: String
+    phoneNumber: Int
+    website: String
+}
+
+type UpdateLeadPayload {
+    lead: Lead!
+}
+
+input DeleteLeadInput {
+    id: Int!
+}
+
+type DeleteLeadPayload {
+    deletedLead: Lead!
+}

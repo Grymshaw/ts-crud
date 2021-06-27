@@ -21,7 +21,7 @@ model Lead {
   id          Int        @id @default(autoincrement())
   user        User       @relation(fields: [userId], references: [id])
   userId      Int
-  leadName    String
+  name        String
   email       String?
   phoneNumber Int?
   website     String?
