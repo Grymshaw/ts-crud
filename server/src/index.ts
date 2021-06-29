@@ -23,5 +23,20 @@ const server = new GraphQLServer({
 
 server.express.use(cookieParser());
 
-const port = process.env.PORT || 4001;
-server.start({ port }, () => console.log(`Running on port ${port}`));
+// Set auth header middleware
+server.express.use((req, _, next) => {
+  const authHeader = req.cookies.accessToken;
+  if (authHeader) {
+    req.headers.authorization = `Bearer ${authHeader}`;
+  }
+  next();
+});
+
+const options = {
+  port: process.env.PORT || 4001,
+  cors: {
+    credentials: true,
+    origin: [process.env.FRONTEND_URL as string],
+  },
+};
+server.start(options, () => console.log(`Running on port ${options.port}`));
