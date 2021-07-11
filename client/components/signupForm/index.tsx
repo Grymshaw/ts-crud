@@ -3,12 +3,14 @@ import { Container, Link, TextField, Typography } from '@material-ui/core';
 
 import LoadingButton from '../loadingButton';
 
-const LoginForm = ({ error, handleLogin, loading, goToSignup }) => {
+const SignupForm = ({ error, handleSignup, loading, goToLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
 
   const errorMessage = error
-    ? 'Incorrect username or password.'
+    ? 'Error signing up. Username may be taken.'
     : null;
 
   return (
@@ -30,22 +32,31 @@ const LoginForm = ({ error, handleLogin, loading, goToSignup }) => {
         helperText={errorMessage}
         style={{ width: '100%' }}
       />
+      <TextField
+        label="Confirm Password"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        type="password"
+        error={!!error}
+        helperText={errorMessage}
+        style={{ width: '100%' }}
+      />
       <LoadingButton
         loading={loading}
         color="primary"
         style={{ width: '100%' }}
-        onClick={() => handleLogin({ password, username })}
+        onClick={() => handleSignup({ password, confirmPassword, username })}
       >
-        Login
+        Signup
       </LoadingButton>
       <Typography align="center" variant="subtitle2">
-        Don&apos;t have an account?&nbsp;
-        <Link href="#" onClick={goToSignup}>
-          Signup
+        Already have an account?&nbsp;
+        <Link href="#" onClick={goToLogin}>
+          Login
         </Link>
       </Typography>
     </Container>
-  )
+  );
 };
 
-export default LoginForm;
+export default SignupForm;
