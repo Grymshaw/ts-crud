@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import { Container } from '@material-ui/core';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useLoginMutation, useSignupMutation } from '../generated/graphql';
@@ -27,18 +28,21 @@ export const SIGNUP_MUTATION = gql`
 `;
 
 export default function Home() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [login, { loading: loginLoading, error: loginError }] = useLoginMutation();
   const [signup, { loading: signupLoading, error: signupError }] = useSignupMutation();
 
   const handleLogin = ({ username, password }) => {
     login({ variables: { input: { username, password } } })
-      .catch(() => { });
+      .then(() => router.push('/leads'))
+      .catch(() => { }); // error is handled by mutation hook
   };
 
   const handleSignup = ({ username, password, passwordConfirm }) => {
     signup({ variables: { input: { username, password, passwordConfirm } } })
-      .catch(() => { });
+      .then(() => router.push('/leads'))
+      .catch(() => { }); // error is handled by mutation hook
   }
 
   return (

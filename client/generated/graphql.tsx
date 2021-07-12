@@ -229,6 +229,34 @@ export type SignupMutation = (
   ) }
 );
 
+export type LeadQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type LeadQuery = (
+  { __typename?: 'Query' }
+  & { lead?: Maybe<(
+    { __typename?: 'Lead' }
+    & Pick<Lead, 'id' | 'name' | 'email' | 'phoneNumber' | 'website'>
+    & { notes?: Maybe<Array<(
+      { __typename?: 'LeadNote' }
+      & Pick<LeadNote, 'id' | 'note'>
+    )>> }
+  )> }
+);
+
+export type LeadsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LeadsQuery = (
+  { __typename?: 'Query' }
+  & { leads?: Maybe<Array<(
+    { __typename?: 'Lead' }
+    & Pick<Lead, 'id' | 'name' | 'website' | 'email' | 'phoneNumber'>
+  )>> }
+);
+
 
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
@@ -300,3 +328,84 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const LeadDocument = gql`
+    query Lead($id: Int!) {
+  lead(id: $id) {
+    id
+    name
+    email
+    phoneNumber
+    website
+    notes {
+      id
+      note
+    }
+  }
+}
+    `;
+
+/**
+ * __useLeadQuery__
+ *
+ * To run a query within a React component, call `useLeadQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLeadQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLeadQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useLeadQuery(baseOptions: Apollo.QueryHookOptions<LeadQuery, LeadQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LeadQuery, LeadQueryVariables>(LeadDocument, options);
+      }
+export function useLeadLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LeadQuery, LeadQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LeadQuery, LeadQueryVariables>(LeadDocument, options);
+        }
+export type LeadQueryHookResult = ReturnType<typeof useLeadQuery>;
+export type LeadLazyQueryHookResult = ReturnType<typeof useLeadLazyQuery>;
+export type LeadQueryResult = Apollo.QueryResult<LeadQuery, LeadQueryVariables>;
+export const LeadsDocument = gql`
+    query Leads {
+  leads {
+    id
+    name
+    website
+    email
+    phoneNumber
+  }
+}
+    `;
+
+/**
+ * __useLeadsQuery__
+ *
+ * To run a query within a React component, call `useLeadsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLeadsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLeadsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLeadsQuery(baseOptions?: Apollo.QueryHookOptions<LeadsQuery, LeadsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LeadsQuery, LeadsQueryVariables>(LeadsDocument, options);
+      }
+export function useLeadsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LeadsQuery, LeadsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LeadsQuery, LeadsQueryVariables>(LeadsDocument, options);
+        }
+export type LeadsQueryHookResult = ReturnType<typeof useLeadsQuery>;
+export type LeadsLazyQueryHookResult = ReturnType<typeof useLeadsLazyQuery>;
+export type LeadsQueryResult = Apollo.QueryResult<LeadsQuery, LeadsQueryVariables>;
