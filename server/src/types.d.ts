@@ -79,6 +79,8 @@ export type LoginInput = {
 
 export type LoginPayload = {
   __typename?: 'LoginPayload';
+  accessToken: Scalars['String'];
+  accessTokenExpiresIn: Scalars['String'];
   user: User;
 };
 
@@ -90,6 +92,7 @@ export type Mutation = {
   deleteLead: DeleteLeadPayload;
   deleteLeadNote: DeleteNotePayload;
   login: LoginPayload;
+  refreshToken: RefreshTokenPayload;
   signup: SignupPayload;
   updateLead: UpdateLeadPayload;
   updateLeadNote: UpdateNotePayload;
@@ -153,6 +156,22 @@ export type QueryNotesArgs = {
   leadId: Scalars['Int'];
 };
 
+export type RefreshToken = {
+  __typename?: 'RefreshToken';
+  id: Scalars['Int'];
+  refreshToken: Scalars['String'];
+  user: User;
+  userId: Scalars['Int'];
+  expiresAt: Scalars['String'];
+  createdAt: Scalars['String'];
+};
+
+export type RefreshTokenPayload = {
+  __typename?: 'RefreshTokenPayload';
+  accessToken: Scalars['String'];
+  accessTokenExpires: Scalars['String'];
+};
+
 export type SignupInput = {
   username: Scalars['String'];
   password: Scalars['String'];
@@ -161,6 +180,8 @@ export type SignupInput = {
 
 export type SignupPayload = {
   __typename?: 'SignupPayload';
+  accessToken: Scalars['String'];
+  accessTokenExpiresIn: Scalars['String'];
   user: User;
 };
 
