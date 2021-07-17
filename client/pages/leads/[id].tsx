@@ -24,6 +24,11 @@ export default function Lead() {
     variables: { id: +router.query.id },
   });
 
+  if (error) {
+    router.push('/');
+    return <p>Redirecting...</p>;
+  }
+
   if (loading || !data) {
     return <p>Loading...</p>;
   }
