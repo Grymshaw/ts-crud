@@ -11,10 +11,11 @@ generator client {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  leads    Lead[]
+  id             Int           @id @default(autoincrement())
+  username       String        @unique
+  password       String
+  leads          Lead[]
+  refreshToken   RefreshToken?
 }
 
 model Lead {
@@ -35,4 +36,13 @@ model LeadNote {
   lead      Lead     @relation(fields: [leadId], references: [id])
   leadId    Int
   note      String
+}
+
+model RefreshToken {
+  id             Int             @id @default(autoincrement())
+  refreshToken   String          @unique
+  user           User            @relation(fields: [userId], references: [id])
+  userId         Int             @unique
+  expiresAt      DateTime
+  createdAt      DateTime        @default(now())
 }
