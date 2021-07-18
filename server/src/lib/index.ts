@@ -9,7 +9,7 @@ export const generateAccessToken = (userId: number) => ({
   accessToken: jwt.sign(
     { userId },
     process.env.TOKEN_SECRET as Secret,
-    { expiresIn: ACCESS_TOKEN_EXPIRES_IN },
+    { expiresIn: `${ACCESS_TOKEN_EXPIRES_IN}s` },
   ),
   accessTokenExpiresIn: ACCESS_TOKEN_EXPIRES_IN,
 });
@@ -66,13 +66,13 @@ export async function generateRefreshToken({ prisma, userId }: { prisma: PrismaC
   return { refreshToken: newToken, refreshExpiryDelta };
 }
 
-interface GenerateAccessAndRefreshTokensInput {
+interface GenerateAccessAndRefreshTokensArgs {
   prisma: PrismaClient;
   res: Response;
   userId: number;
 }
 
-export async function generateAccessAndRefreshTokens({ prisma, res, userId }: GenerateAccessAndRefreshTokensInput) {
+export async function generateAccessAndRefreshTokens({ prisma, res, userId }: GenerateAccessAndRefreshTokensArgs) {
   const { refreshToken, refreshExpiryDelta } = await generateRefreshToken({ prisma, userId });
   const { accessToken, accessTokenExpiresIn } = generateAccessToken(userId);
 
