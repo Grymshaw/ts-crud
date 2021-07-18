@@ -1,0 +1,18 @@
+extend type Mutation {
+  refreshToken: RefreshTokenPayload!
+}
+
+type RefreshTokenPayload {
+  accessToken: String!
+  accessTokenExpiresIn: Int!
+  user: User!
+}
+
+type RefreshToken {
+  id: Int!
+  refreshToken: String!
+  user: User!
+  userId: Int!
+  expiresAt: String!
+  createdAt: String!
+}

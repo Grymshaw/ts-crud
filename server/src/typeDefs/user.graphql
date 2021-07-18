@@ -9,6 +9,8 @@ input LoginInput {
 }
 
 type LoginPayload {
+    accessToken: String!
+    accessTokenExpiresIn: String!
     user: User!
 }
 
@@ -19,6 +21,8 @@ input SignupInput {
 }
 
 type SignupPayload {
+    accessToken: String!
+    accessTokenExpiresIn: String!
     user: User!
 }
 

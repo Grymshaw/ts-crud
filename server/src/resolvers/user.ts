@@ -3,36 +3,37 @@ import User from '../models/user';
 import { LoginInput, SignupInput } from '../types';
 
 const login = async (
-    _: any,
-    { input: { username, password } }: { input: LoginInput },
-    { prisma, res }: Context,
-) => ({
-    user: User.login({
-        prisma,
-        password,
-        username,
-        res,
-    })
-});
+  _: any,
+  { input: { username, password } }: { input: LoginInput },
+  { prisma, res }: Context,
+) => (
+  User.login({
+    prisma,
+    password,
+    username,
+    res,
+  })
+);
 
 const signup = async (
-    _: any,
-    { input: { username, password, passwordConfirm } }: { input: SignupInput },
-    { prisma }: Context,
-) => ({
-    user: User.create({
-        prisma,
-        username,
-        password,
-        passwordConfirm,
-    })
-});
+  _: any,
+  { input: { username, password, passwordConfirm } }: { input: SignupInput },
+  { prisma, res }: Context,
+) => (
+  User.create({
+    prisma,
+    res,
+    username,
+    password,
+    passwordConfirm,
+  })
+);
 
 const Mutation = {
-    login,
-    signup,
+  login,
+  signup,
 };
 
 export default {
-    Mutation,
+  Mutation,
 };

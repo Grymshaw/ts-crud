@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import { GraphQLServer } from 'graphql-yoga';
 import { stitchSchemas } from '@graphql-tools/stitch';
@@ -11,14 +12,16 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const schema = stitchSchemas({
-    subschemas,
-    resolvers,
+  subschemas,
+  resolvers,
 });
 
 const server = new GraphQLServer({
-    schema,
-    context: ({ request, response }) => ({ prisma, req: request, res: response }),
+  schema,
+  context: ({ request, response }) => ({ prisma, req: request, res: response }),
 });
+
+server.express.use(cookieParser());
 
 const port = process.env.PORT || 4001;
 server.start({ port }, () => console.log(`Running on port ${port}`));
