@@ -27,7 +27,8 @@ async function refreshToken({ prisma, req, res }: RefreshTokenInput) {
   return {
     accessToken,
     accessTokenExpiresIn,
-  }
+    user,
+  };
 }
 
 export default {

@@ -169,7 +169,8 @@ export type RefreshToken = {
 export type RefreshTokenPayload = {
   __typename?: 'RefreshTokenPayload';
   accessToken: Scalars['String'];
-  accessTokenExpires: Scalars['String'];
+  accessTokenExpiresIn: Scalars['Int'];
+  user: User;
 };
 
 export type SignupInput = {

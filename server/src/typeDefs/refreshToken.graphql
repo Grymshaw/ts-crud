@@ -4,7 +4,8 @@ extend type Mutation {
 
 type RefreshTokenPayload {
   accessToken: String!
-  accessTokenExpires: String!
+  accessTokenExpiresIn: Int!
+  user: User!
 }
 
 type RefreshToken {
