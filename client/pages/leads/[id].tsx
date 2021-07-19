@@ -20,10 +20,10 @@ export const LEAD_QUERY = gql`
   }
 `;
 
-function Lead() {
+function Lead({ id }: { id: number }) {
   const router = useRouter();
   const { data, error, loading } = useLeadQuery({
-    variables: { id: +router.query.id },
+    variables: { id: id || +router.query.id },
   });
 
   if (error) {
@@ -40,8 +40,10 @@ function Lead() {
   );
 };
 
-Lead.getInitialProps = (appContext: NextPageContext) => {
-  return { id: appContext.query.id };
+const LeadWithRefreshToken = withRefreshToken(Lead);
+
+LeadWithRefreshToken.getInitialProps = (appContext: NextPageContext) => {
+  return { id: +appContext.query.id };
 };
 
-export default withRefreshToken(Lead);
+export default LeadWithRefreshToken;
