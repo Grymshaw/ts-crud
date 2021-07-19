@@ -14,6 +14,7 @@ import {
   Lead,
   useLeadsQuery,
 } from '../../generated/graphql';
+import { withRefreshToken } from '../../lib/auth';
 
 export const LEADS_QUERY = gql`
   query Leads {
@@ -27,11 +28,12 @@ export const LEADS_QUERY = gql`
   }
 `;
 
-export default function Leads() {
+function Leads() {
   const { data, error, loading } = useLeadsQuery();
   const router = useRouter();
 
   if (error) {
+    console.error(error);
     router.push('/');
     return <p>Redirecting...</p>;
   }
@@ -100,3 +102,5 @@ export default function Leads() {
 //     revalidate: 1,
 //   };
 // };
+
+export default withRefreshToken(Leads);

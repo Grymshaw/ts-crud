@@ -10,6 +10,8 @@ import SignupForm from '../components/signupForm';
 export const LOGIN_MUTATION = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
+      accessToken
+      accessTokenExpiresIn
       user {
         id
       }
@@ -35,7 +37,9 @@ export default function Home() {
 
   const handleLogin = ({ username, password }) => {
     login({ variables: { input: { username, password } } })
-      .then(() => router.push('/leads'))
+      .then((res) => {
+        router.push('/leads');
+      })
       .catch(() => { }); // error is handled by mutation hook
   };
 

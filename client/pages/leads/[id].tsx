@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client';
+import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useLeadQuery } from '../../generated/graphql';
+import { withRefreshToken } from '../../lib/auth';
 
 export const LEAD_QUERY = gql`
   query Lead($id: Int!) {
@@ -18,7 +20,7 @@ export const LEAD_QUERY = gql`
   }
 `;
 
-export default function Lead() {
+function Lead() {
   const router = useRouter();
   const { data, error, loading } = useLeadQuery({
     variables: { id: +router.query.id },
@@ -37,3 +39,9 @@ export default function Lead() {
     <div>{data.lead.name}</div>
   );
 };
+
+Lead.getInitialProps = (appContext: NextPageContext) => {
+  return { id: appContext.query.id };
+};
+
+export default withRefreshToken(Lead);

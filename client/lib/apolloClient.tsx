@@ -5,6 +5,9 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+import { getInMemoryJwt } from './auth';
 
 let apolloClient: ApolloClient<InMemoryCache | NormalizedCacheObject>;
 
@@ -13,10 +16,21 @@ const httpLink = new HttpLink({
   credentials: 'include',
 });
 
+const authLink = setContext((_, { headers }) => {
+  const token = getInMemoryJwt();
+
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token.token}` : '',
+    },
+  };
+});
+
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // set to true for SSR
-    link: httpLink,
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 }
