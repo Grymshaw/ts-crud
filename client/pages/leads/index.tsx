@@ -40,7 +40,7 @@ function Leads() {
 
   // FIXME: Delete this --> Just tempporary to have more data
   let leads = [];
-  if (data) {
+  if (data && data.leads.length > 0) {
     leads = Array.apply(null, Array(5)).map(() => data.leads[0]);
   }
 

@@ -6,7 +6,7 @@ import LoadingButton from '../loadingButton';
 const SignupForm = ({ error, handleSignup, loading, goToLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
 
 
   const errorMessage = error
@@ -34,8 +34,8 @@ const SignupForm = ({ error, handleSignup, loading, goToLogin }) => {
       />
       <TextField
         label="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
+        value={passwordConfirm}
+        onChange={(e) => setPasswordConfirm(e.target.value)}
         type="password"
         error={!!error}
         helperText={errorMessage}
@@ -45,7 +45,7 @@ const SignupForm = ({ error, handleSignup, loading, goToLogin }) => {
         loading={loading}
         color="primary"
         style={{ width: '100%' }}
-        onClick={() => handleSignup({ password, confirmPassword, username })}
+        onClick={() => handleSignup({ password, passwordConfirm, username })}
       >
         Signup
       </LoadingButton>
